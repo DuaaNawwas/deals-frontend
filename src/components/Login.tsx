@@ -10,7 +10,7 @@ const Login: FC<LoginProps> = ({}) => {
         Password: ""
     })
 
-    const [isLoggedIn, setIsLoggedIn] = useState(true)
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserData({
@@ -25,28 +25,17 @@ const Login: FC<LoginProps> = ({}) => {
             if(res) {
                 setIsLoggedIn(true)
                 toast.success("Login Successful")
+                window.location.reload()
             } else {
                 toast.error("Login Failed")
             }
         } )
     }
 
-    const handleLogout = () => {
-        logoutUser().then((res) => {
-            console.log(res);
-            if(res) {
-                setIsLoggedIn(false)
-                toast.success("Logout Successful")
-            }
-            else {
-                toast.error("Logout Failed")
-            }
-        })
-    }
 
   return (
     <>
-    {isLoggedIn ? <button onClick={handleLogout}>Logout</button>:
+    {/* {isLoggedIn ? <button onClick={handleLogout}>Logout</button>: */}
     <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
       <div className="card-body">
         <div className="form-control">
@@ -80,7 +69,7 @@ const Login: FC<LoginProps> = ({}) => {
           <button className="btn btn-primary" onClick={handleLogin}>Login</button>
         </div>
       </div>
-    </div>}
+    </div>
     </>
   );
 };
