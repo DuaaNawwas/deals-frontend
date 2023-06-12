@@ -1,9 +1,11 @@
 import { createContext, useEffect, useState } from "react";
 import constants from "../constants";
+import { useNavigate } from "react-router-dom";
 
 export const UserContext = createContext<any>({});
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [userSession, setUserSession] = useState(null);
 
@@ -28,9 +30,11 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUserAuth();
   }, []);
 
-  useEffect(() => {
-    console.log(userSession);
-  }, [userSession]);
+  // useEffect(() => {
+  //   if (!userSession) {
+  //     navigate("/");
+  //   }
+  // }, [userSession]);
 
   return (
     <UserContext.Provider value={{ userSession, loading }}>

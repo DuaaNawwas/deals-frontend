@@ -20,4 +20,21 @@ const claimDeal = async (Deal_ID: number) => {
     .catch((err) => console.log(err));
 };
 
-export { claimDeal };
+const getClimedDealsByUser = async () => {
+  return fetch(constants.SERVER_URL.concat("/claimed-deals/user"), {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(async (res) => {
+      if (res.status === 401) {
+        return { error: "Unauthorized" };
+      }
+      return res.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+export { claimDeal, getClimedDealsByUser };

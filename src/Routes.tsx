@@ -5,6 +5,8 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import Layout from "./components/Layout";
+import Profile from "./components/Profile";
+import Dashboard from "./components/Dashboard";
 
 const RoutesComp: FC = () => {
   const { userSession, loading } = useContext(UserContext);
@@ -20,6 +22,10 @@ const RoutesComp: FC = () => {
             <>
               <Route element={<Layout />}>
                 <Route path="/" element={<Home />} />
+                <Route path="profile" element={<Profile />} />
+                {userSession && userSession.Role === "Admin" && (
+                  <Route path="dashboard" element={<Dashboard />} />
+                )}
               </Route>
             </>
           )}

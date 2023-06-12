@@ -1,4 +1,4 @@
-import { FC, memo, useState } from "react";
+import { FC, memo, useState, useEffect } from "react";
 import { loginUser } from "../apis/user.apis";
 import toast, { LoaderIcon } from "react-hot-toast";
 
@@ -17,25 +17,44 @@ const Login: FC = () => {
   };
 
   const handleLogin = async () => {
-    if(!userData.Name || !userData.Password) return toast.error("Please fill all the fields");
+    if (!userData.Name || !userData.Password)
+      return toast.error("Please fill all the fields");
     setLoading(true);
     try {
-     const res = await loginUser(userData)
-     if (!res.error) {
-         toast.success("Login Successful");
-         window.location.reload();
-       } else {
-          setLoading(false);
-         toast.error(res.error);
-       }
-    }
-    catch (err) {
-        console.log(err)
+      const res = await loginUser(userData);
+      if (!res.error) {
+        toast.success("Login Successful");
+        window.location.reload();
+      } else {
+        setLoading(false);
+        toast.error(res.error);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
+  useEffect(() => {
+    const autoLogout = localStorage.getItem("autoLogout");
+    if (autoLogout) {
+      window.autologoutmodal.showModal()
+      localStorage.removeItem("autoLogout");
+    }
+  }, []);
+
   return (
-    <div className="flex justify-start items-center w-screen h-screen">
+    <div className="flex flex-col justify-center gap-10 items-center w-screen h-screen">
+      <dialog id="autologoutmodal" className="modal">
+        <form method="dialog" className="modal-box">
+          <h3 className="font-bold text-lg">Your session timedout!</h3>
+          <p className="py-4">
+            Please login again to continue using the application
+          </p>
+          <div className="modal-action">
+            <button className="btn">Close</button>
+          </div>
+        </form>
+      </dialog>
       <div className="card mx-auto w-full max-w-sm shadow-2xl bg-base-300">
         <div className="card-body">
           <div className="form-control">
@@ -65,10 +84,12 @@ const Login: FC = () => {
             />
           </div>
           <div className="form-control mt-6">
-            <button className="btn btn-primary" disabled={loading || 
-            !userData.Name || !userData.Password
-            } onClick={handleLogin}>
-             {loading && <LoaderIcon />} 
+            <button
+              className="btn btn-primary"
+              disabled={loading || !userData.Name || !userData.Password}
+              onClick={handleLogin}
+            >
+              {loading && <LoaderIcon />}
               Login
             </button>
           </div>

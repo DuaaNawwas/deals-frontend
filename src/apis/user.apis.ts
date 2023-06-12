@@ -14,7 +14,7 @@ const loginUser = (user: IUserLogin) => {
     }),
   })
     .then(async (res) => {
-        return res.json();
+      return res.json();
     })
     .catch((err) => console.log(err));
 };
@@ -31,4 +31,61 @@ const logoutUser = () => {
     .catch((err) => console.log(err));
 };
 
-export { loginUser, logoutUser };
+const getAllUsers = () => {
+  return fetch(constants.SERVER_URL.concat("/users"), {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      if (res.status === 401) {
+        return { error: "Unauthorized" };
+      }
+      return res.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+const deleteUsers = (ids: number[]) => {
+  return fetch(constants.SERVER_URL.concat("/users"), {
+    method: "DELETE",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ids,
+    }),
+  })
+    .then((res) => {
+      if (res.status === 401) {
+        return { error: "Unauthorized" };
+      }
+      return res.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+const updateUser = (user: any) => {
+  return fetch(constants.SERVER_URL.concat("/user"), {
+    method: "PUT",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ...user,
+    }),
+  })
+    .then((res) => {
+      if (res.status === 401) {
+        return { error: "Unauthorized" };
+      }
+      return res.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+export { loginUser, logoutUser, getAllUsers, deleteUsers, updateUser };

@@ -38,7 +38,7 @@ const Home: FC<HomeProps> = ({}) => {
   return (
     <div className="space-y-10">
       <h1 className="text-xl font-bold">Claim your deal now!</h1>
-      <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-5">
+      <div className="grid md:grid-cols-3  gap-5">
         {deals?.map((deal: any) => {
           return (
             <div
@@ -59,7 +59,7 @@ const Home: FC<HomeProps> = ({}) => {
                       {deal.Status}
                     </div>
                   </div>
-                  <div className="">
+                  <div className="whitespace-nowrap">
                     {deal.Amount} {deal.Currency}
                   </div>
                 </h2>
