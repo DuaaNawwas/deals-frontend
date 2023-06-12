@@ -2,7 +2,7 @@ import { FC, memo } from "react";
 import moment from "moment";
 import { toast } from "react-hot-toast";
 import { UserContext } from "../context/userContext";
-import { deleteUsers, getAllUsers } from "../apis/user.apis";
+import { deleteUsers, getAllUsers, updateUser } from "../apis/user.apis";
 import { useContext, useEffect, useState } from "react";
 interface UsersProps {}
 
@@ -11,13 +11,14 @@ const Users: FC<UsersProps> = ({}) => {
   const [users, setUsers] = useState([]);
   const [usersToShow, setUsersToShow] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
-  const [SelectAll, setSelectAll] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage] = useState(10);
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const nPages = Math.ceil(usersToShow.length / recordsPerPage);
+
+
 
   useEffect(() => {
     const currentRecords = users.slice(indexOfFirstRecord, indexOfLastRecord);
@@ -46,7 +47,6 @@ const Users: FC<UsersProps> = ({}) => {
       setSelectedUsers(
         selectedUsers.filter((id) => id !== +name.split("-")[1])
       );
-      setSelectAll(false);
     }
   };
 
@@ -65,6 +65,19 @@ const Users: FC<UsersProps> = ({}) => {
       }
     });
   };
+
+  const handleUpdateUserStatus = (id: number, Status: string) => {
+    updateUser({
+        id,
+        Status
+    }).then((res) => {
+      if (!res.error) {
+        toast.success("User status updated successfully");
+        fetchUsers();
+      }
+    });
+  }
+
   return (
     <>
       <dialog id="my_modal_1" className="modal">
@@ -158,7 +171,13 @@ const Users: FC<UsersProps> = ({}) => {
                     </td>
                     <td>{user.Phone}</td>
                     <td>
-                      <span
+                      <select onChange={(e)=>{
+                        handleUpdateUserStatus(user.id, e.target.value)
+                      }} className="select select-bordered w-full max-w-xs">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                      </select>
+                      {/* <span
                         className={`badge ${
                           user.Status === "Active"
                             ? "badge-success"
@@ -166,7 +185,7 @@ const Users: FC<UsersProps> = ({}) => {
                         }`}
                       >
                         {user.Status}{" "}
-                      </span>
+                      </span> */}
                     </td>
                     <td> {moment(user.Date_Of_Birth).format("DD/MM/YYYY")} </td>
                     <td>

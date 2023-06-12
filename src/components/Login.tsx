@@ -46,7 +46,7 @@ const Login: FC = () => {
     <div className="flex flex-col justify-center gap-10 items-center w-screen h-screen">
       <dialog id="autologoutmodal" className="modal">
         <form method="dialog" className="modal-box">
-          <h3 className="font-bold text-lg">Your session timedout!</h3>
+          <h3 className="font-bold text-lg">Your session timed out!</h3>
           <p className="py-4">
             Please login again to continue using the application
           </p>
