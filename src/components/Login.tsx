@@ -1,6 +1,7 @@
 import { FC, memo, useState, useEffect } from "react";
 import { loginUser } from "../apis/user.apis";
 import toast, { LoaderIcon } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const Login: FC = () => {
   const [loading, setLoading] = useState(false);
@@ -93,6 +94,10 @@ const Login: FC = () => {
               Login
             </button>
           </div>
+          <label className=" flex gap-1">
+            <span className="label-text-alt">Don't have an account?</span>
+            <Link to={'/register'} className="label-text-alt link link-hover">Register</Link>
+          </label>
         </div>
       </div>
     </div>

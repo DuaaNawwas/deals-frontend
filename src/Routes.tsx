@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import Layout from "./components/Layout";
 import Profile from "./components/Profile";
 import Dashboard from "./components/Dashboard";
+import Register from "./components/Register";
 
 const RoutesComp: FC = () => {
   const { userSession, loading } = useContext(UserContext);
@@ -30,7 +31,12 @@ const RoutesComp: FC = () => {
             </>
           )}
 
-          {!userSession && <Route path="/" element={<Login />} />}
+          {!userSession &&
+          <>
+           <Route path="/" element={<Login />} />
+           <Route path="/register" element={<Register />} />
+          </>
+           }
         </Routes>
       )}
     </>

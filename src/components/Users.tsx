@@ -8,17 +8,15 @@ interface UsersProps {}
 
 const Users: FC<UsersProps> = ({}) => {
   const { userSession } = useContext(UserContext);
-  const [users, setUsers] = useState([]);
-  const [usersToShow, setUsersToShow] = useState([]);
+  const [users, setUsers] = useState<any[]>([]);
+  const [usersToShow, setUsersToShow] = useState<any[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage] = useState(10);
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const nPages = Math.ceil(usersToShow.length / recordsPerPage);
-
-
+  const nPages = Math.ceil(users.length / recordsPerPage);
 
   useEffect(() => {
     const currentRecords = users.slice(indexOfFirstRecord, indexOfLastRecord);
@@ -61,6 +59,7 @@ const Users: FC<UsersProps> = ({}) => {
     deleteUsers(selectedUsers).then((res) => {
       if (!res.error) {
         toast.success("Users deleted successfully");
+        setSelectedUsers([]);
         fetchUsers();
       }
     });
@@ -68,15 +67,15 @@ const Users: FC<UsersProps> = ({}) => {
 
   const handleUpdateUserStatus = (id: number, Status: string) => {
     updateUser({
-        id,
-        Status
+      id,
+      Status,
     }).then((res) => {
       if (!res.error) {
         toast.success("User status updated successfully");
         fetchUsers();
       }
     });
-  }
+  };
 
   return (
     <>
@@ -104,7 +103,7 @@ const Users: FC<UsersProps> = ({}) => {
             Delete Selected Users
           </button>
         )}
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto flex flex-col">
           <table className="table">
             <thead>
               <tr>
@@ -118,7 +117,7 @@ const Users: FC<UsersProps> = ({}) => {
               </tr>
             </thead>
             <tbody>
-              {users?.map((user: any, i) => {
+              {usersToShow?.map((user: any, i) => {
                 return (
                   <tr
                     key={i}
@@ -171,9 +170,12 @@ const Users: FC<UsersProps> = ({}) => {
                     </td>
                     <td>{user.Phone}</td>
                     <td>
-                      <select onChange={(e)=>{
-                        handleUpdateUserStatus(user.id, e.target.value)
-                      }} className="select select-bordered w-full max-w-xs">
+                      <select
+                        onChange={(e) => {
+                          handleUpdateUserStatus(user.id, e.target.value);
+                        }}
+                        className="select select-bordered w-full max-w-xs"
+                      >
                         <option value="Active">Active</option>
                         <option value="Inactive">Inactive</option>
                       </select>
@@ -200,7 +202,7 @@ const Users: FC<UsersProps> = ({}) => {
             </tbody>
           </table>
           {nPages > 1 && (
-            <div className="join">
+            <div className="join self-end">
               <button className="join-item btn" onClick={prevPage}>
                 «
               </button>
@@ -209,7 +211,7 @@ const Users: FC<UsersProps> = ({}) => {
                 »
               </button>
             </div>
-          )}
+           )} 
         </div>
       </div>
     </>
