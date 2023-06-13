@@ -9,7 +9,7 @@ const getAllDeals = async () => {
       "Content-Type": "application/json",
     },
   })
-    .then(async (res) => {
+    .then( (res) => {
       if (res.status === 401) {
         return { error: "Unauthorized" };
       }
@@ -17,6 +17,23 @@ const getAllDeals = async () => {
     })
     .catch((err) => console.log(err));
 };
+
+const getAllDealsDashboard = async () => {
+    return fetch(constants.SERVER_URL.concat("/deals/dashboard"), {
+        method: "GET",
+        credentials: "include",
+        headers: {
+        "Content-Type": "application/json",
+        },
+    })
+        .then( (res) => {
+        if (res.status === 401) {
+            return { error: "Unauthorized" };
+        }
+        return res.json();
+        })
+        .catch((err) => console.log(err));
+}
 
 const createDeal = async (deal: IDealCreate) => {
   return fetch(constants.SERVER_URL.concat("/deal"), {
@@ -72,4 +89,21 @@ const deleteDeal = async (id: number) => {
     .catch((err) => console.log(err));
 };
 
-export { getAllDeals, createDeal, updateDeal, deleteDeal };
+const deleteDeals = async (ids: number[]) => {
+    return fetch(constants.SERVER_URL.concat("/deals"), {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+        ids,
+        }),
+    })
+        .then(async (res) => {
+        return res.json();
+        })
+        .catch((err) => console.log(err));
+}
+
+export { getAllDeals, createDeal, updateDeal, deleteDeal, deleteDeals, getAllDealsDashboard };

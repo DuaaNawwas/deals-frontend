@@ -1,6 +1,23 @@
 import constants from "../constants";
 import { IUserLogin } from "../types/user.types";
 
+const registerUser = (user: any) => {
+  return fetch(constants.SERVER_URL.concat("/register"), {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ...user
+    }),
+  })
+    .then(async (res) => {
+      return res.json();
+    })
+    .catch((err) => console.log(err));
+}
+
 const loginUser = (user: IUserLogin) => {
   return fetch(constants.SERVER_URL.concat("/login"), {
     method: "POST",
@@ -88,4 +105,4 @@ const updateUser = (user: any) => {
     .catch((err) => console.log(err));
 };
 
-export { loginUser, logoutUser, getAllUsers, deleteUsers, updateUser };
+export { loginUser, logoutUser, getAllUsers, deleteUsers, updateUser, registerUser };

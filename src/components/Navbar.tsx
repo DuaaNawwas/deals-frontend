@@ -13,7 +13,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
     logoutUser().then((res) => {
       if (!res.error) {
         toast.success("Logout Successful");
-        window.location.reload();
+        window.location.pathname = "/";
       } else {
         toast.error(res.error);
       }

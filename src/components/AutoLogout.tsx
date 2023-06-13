@@ -5,7 +5,7 @@ import constants from "../constants";
 
 const events = [
   "load",
-//   "mousemove",
+  "mousemove",
   "mousedown",
   "click",
   "scroll",

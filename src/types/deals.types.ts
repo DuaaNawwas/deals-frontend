@@ -9,6 +9,6 @@ interface IDeal {
 
 type IDealCreate = Pick<IDeal, 'Name' | 'Description' | 'Amount' | 'Currency'>
 
-type IDealUpdate = Partial<IDealCreate> & Pick<IDeal, 'id'>
+type IDealUpdate = Pick<IDeal, 'id' | 'Status'>
 
 export type { IDeal, IDealCreate, IDealUpdate}

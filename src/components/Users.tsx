@@ -123,7 +123,8 @@ const Users: FC<UsersProps> = ({}) => {
                     key={i}
                     className={`${
                       userSession.id === user.id ? "opacity-50" : ""
-                    }`}
+                    }${user.Status === 'Deleted' ? 'bg-red-200/25':''}`}
+
                   >
                     <th>
                       <label>
@@ -133,7 +134,7 @@ const Users: FC<UsersProps> = ({}) => {
                           className="checkbox"
                           onChange={(e) => onSelect(e)}
                           checked={selectedUsers.includes(user.id)}
-                          disabled={userSession?.id === user.id}
+                          disabled={userSession?.id === user.id || user.Status === 'Deleted'}
                         />
                       </label>
                     </th>
@@ -174,10 +175,12 @@ const Users: FC<UsersProps> = ({}) => {
                         onChange={(e) => {
                           handleUpdateUserStatus(user.id, e.target.value);
                         }}
+                        value={user.Status}
                         className="select select-bordered w-full max-w-xs"
                       >
                         <option value="Active">Active</option>
                         <option value="Inactive">Inactive</option>
+                        <option value="Deleted">Deleted</option>
                       </select>
                       {/* <span
                         className={`badge ${
@@ -211,7 +214,7 @@ const Users: FC<UsersProps> = ({}) => {
                 »
               </button>
             </div>
-           )} 
+          )}
         </div>
       </div>
     </>

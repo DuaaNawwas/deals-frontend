@@ -1,6 +1,8 @@
-
 import React, { FC, memo, useEffect, useState } from "react";
 import { z } from "zod";
+import { registerUser } from "../apis/user.apis";
+import { toast } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 
 interface FormType {
   Name: string;
@@ -21,6 +23,7 @@ const base = {
   Confirm_Password: "",
 };
 const Register: FC = memo(() => {
+  const navigate = useNavigate();
   const [form, setForm] = useState<FormType>({ ...base });
   const [errors, setErrors] = useState<FormType>({ ...base });
 
@@ -62,7 +65,7 @@ const Register: FC = memo(() => {
     };
 
   const refinedFormSchema = formSchema.refine(
-    (data:any) => data.Password === data.Confirm_Password,
+    (data: any) => data.Password === data.Confirm_Password,
     {
       message: "Passwords do not match",
       path: ["Confirm_Password"],
@@ -89,8 +92,20 @@ const Register: FC = memo(() => {
       }
       return setErrors(newErrors as FormType);
     }
-    // API CALL
     setErrors({ ...base });
+
+    try {
+      const res = await registerUser(form);
+      if (!res.error) {
+        toast.success("Registered Successfully, Please Login");
+        navigate("/");
+      } else {
+        setLoading(false);
+        toast.error(res.error);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
   useEffect(() => {
     if (Object.values(form).every((value) => value === "")) {
@@ -109,7 +124,7 @@ const Register: FC = memo(() => {
   return (
     <>
       <div className="flex flex-col justify-center gap-10 items-center p-10 h-full">
-        <div className="card mx-auto w-3/4 shadow-2xl bg-base-300">
+        <div className="card mx-auto  shadow-2xl bg-base-300">
           <div className=" p-8 flex flex-wrap  gap-2  justify-between ">
             <div className="w-full">
               <div className="form-control   ">
@@ -249,9 +264,9 @@ const Register: FC = memo(() => {
               </label>
             </div>
 
-            <div className="form-control mt-6 w-full items-end">
+            <div className="form-control mt-6 w-full">
               <button
-                className="btn btn-primary w-7/12 "
+                className="btn btn-primary w-full "
                 disabled={
                   !Object.values(form).every((value) => value !== "") || loading
                 }
@@ -259,6 +274,12 @@ const Register: FC = memo(() => {
               >
                 {loading ? <div className="loading"></div> : "Sign up"}
               </button>
+              <label className=" flex gap-1">
+                <span className="label-text-alt">Already have an account?</span>
+                <Link to={"/"} className="label-text-alt link link-hover">
+                  Login
+                </Link>
+              </label>
             </div>
           </div>
         </div>

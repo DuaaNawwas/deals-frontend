@@ -1,5 +1,6 @@
 import { FC, memo, useState, useEffect, useContext } from "react";
 import Users from "./Users";
+import Deals from "./Deals";
 
 interface DashboardProps {}
 
@@ -24,6 +25,7 @@ const Dashboard: FC<DashboardProps> = ({}) => {
       </div>
       <div className="divider"></div>
       <div className="">{tab === "Users" && <Users />}</div>
+      <div className="">{tab === "Deals" && <Deals />}</div>
     </div>
   );
 };
