@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { UserContext } from "../context/userContext";
 import { deleteUsers, getAllUsers, updateUser } from "../apis/user.apis";
 import { useContext, useEffect, useState } from "react";
+import constants from "../constants";
 interface UsersProps {}
 
 const Users: FC<UsersProps> = ({}) => {
@@ -123,8 +124,7 @@ const Users: FC<UsersProps> = ({}) => {
                     key={i}
                     className={`${
                       userSession.id === user.id ? "opacity-50" : ""
-                    }${user.Status === 'Deleted' ? 'bg-red-200/25':''}`}
-
+                    }${user.Status === "Deleted" ? "bg-red-200/25" : ""}`}
                   >
                     <th>
                       <label>
@@ -134,7 +134,10 @@ const Users: FC<UsersProps> = ({}) => {
                           className="checkbox"
                           onChange={(e) => onSelect(e)}
                           checked={selectedUsers.includes(user.id)}
-                          disabled={userSession?.id === user.id || user.Status === 'Deleted'}
+                          disabled={
+                            userSession?.id === user.id ||
+                            user.Status === "Deleted"
+                          }
                         />
                       </label>
                     </th>
@@ -143,12 +146,12 @@ const Users: FC<UsersProps> = ({}) => {
                         <div className="avatar">
                           <div className="mask mask-squircle w-12 h-12">
                             <img
-                              src={`${
-                                user.image
-                                  ? user.image
+                              src={
+                                user?.Image
+                                  ? constants.IMAGE_URL.concat(user?.Image)
                                   : `https://ui-avatars.com/api/?name=${user.Name}`
-                              }}`}
-                              alt="Avatar Tailwind CSS Component"
+                              }
+                              alt=""
                             />
                           </div>
                         </div>
@@ -182,15 +185,6 @@ const Users: FC<UsersProps> = ({}) => {
                         <option value="Inactive">Inactive</option>
                         <option value="Deleted">Deleted</option>
                       </select>
-                      {/* <span
-                        className={`badge ${
-                          user.Status === "Active"
-                            ? "badge-success"
-                            : "badge-warning"
-                        }`}
-                      >
-                        {user.Status}{" "}
-                      </span> */}
                     </td>
                     <td> {moment(user.Date_Of_Birth).format("DD/MM/YYYY")} </td>
                     <td>

@@ -9,14 +9,14 @@ const registerUser = (user: any) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      ...user
+      ...user,
     }),
   })
     .then(async (res) => {
       return res.json();
     })
     .catch((err) => console.log(err));
-}
+};
 
 const loginUser = (user: IUserLogin) => {
   return fetch(constants.SERVER_URL.concat("/login"), {
@@ -105,4 +105,27 @@ const updateUser = (user: any) => {
     .catch((err) => console.log(err));
 };
 
-export { loginUser, logoutUser, getAllUsers, deleteUsers, updateUser, registerUser };
+const uploadImage = (formData: any) => {
+  return fetch(constants.SERVER_URL.concat("/upload"), {
+    method: "POST",
+    credentials: "include",
+    body: formData,
+  })
+    .then((res) => {
+      // if (res.status === 401) {
+      //   return { error: "Unauthorized" };
+      // }
+      return res.text();
+    })
+    .catch((err) => console.log(err));
+};
+
+export {
+  loginUser,
+  logoutUser,
+  getAllUsers,
+  deleteUsers,
+  updateUser,
+  registerUser,
+  uploadImage,
+};

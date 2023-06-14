@@ -3,6 +3,7 @@ import { logoutUser } from "../apis/user.apis";
 import toast from "react-hot-toast";
 import { UserContext } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
+import constants from "../constants";
 
 interface NavbarProps {}
 
@@ -36,7 +37,11 @@ const Navbar: FC<NavbarProps> = ({}) => {
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
               <img
-                src={`https://ui-avatars.com/api/?name=${userSession.Name}`}
+                src={
+                  userSession?.Image
+                    ? constants.IMAGE_URL.concat(userSession?.Image)
+                    : `https://ui-avatars.com/api/?name=${userSession.Name}`
+                }
               />
             </div>
           </label>

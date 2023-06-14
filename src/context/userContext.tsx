@@ -30,14 +30,8 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUserAuth();
   }, []);
 
-  // useEffect(() => {
-  //   if (!userSession) {
-  //     navigate("/");
-  //   }
-  // }, [userSession]);
-
   return (
-    <UserContext.Provider value={{ userSession, loading }}>
+    <UserContext.Provider value={{ userSession, loading, setUserSession }}>
       {children}
     </UserContext.Provider>
   );
