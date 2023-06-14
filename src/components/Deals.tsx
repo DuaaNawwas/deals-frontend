@@ -1,8 +1,14 @@
 import { FC, memo, useState, useEffect } from "react";
 import { IDeal } from "../types/deals.types";
-import { deleteDeals, getAllDeals, getAllDealsDashboard, updateDeal } from "../apis/deals.apis";
+import {
+  deleteDeals,
+  getAllDeals,
+  getAllDealsDashboard,
+  updateDeal,
+} from "../apis/deals.apis";
 import { toast } from "react-hot-toast";
 import moment from "moment";
+import AddDeal from "./AddDeal";
 interface DealsProps {}
 
 const Deals: FC<DealsProps> = ({}) => {
@@ -94,6 +100,7 @@ const Deals: FC<DealsProps> = ({}) => {
         </form>
       </dialog>
       <div className="flex flex-col gap-5">
+        <AddDeal setDeals={setDeals} />
         {selectedDeals.length > 0 && (
           <button
             className="btn btn-error self-end"
@@ -118,7 +125,12 @@ const Deals: FC<DealsProps> = ({}) => {
             <tbody>
               {dealsToShow?.map((deal: any, i) => {
                 return (
-                  <tr className={`${deal.Status === 'Deleted' ? 'bg-red-200/25':''}`} key={i}>
+                  <tr
+                    className={`${
+                      deal.Status === "Deleted" ? "bg-red-200/25" : ""
+                    }`}
+                    key={i}
+                  >
                     <th>
                       <label>
                         <input

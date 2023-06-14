@@ -93,7 +93,7 @@ const Register: FC = memo(() => {
       return setErrors(newErrors as FormType);
     }
     setErrors({ ...base });
-
+    setLoading(true);
     try {
       const res = await registerUser(form);
       if (!res.error) {
