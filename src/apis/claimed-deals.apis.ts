@@ -37,4 +37,21 @@ const getClimedDealsByUser = async () => {
     .catch((err) => console.log(err));
 };
 
-export { claimDeal, getClimedDealsByUser };
+const getAllClaimedDeals = async () => {
+  return fetch(constants.SERVER_URL.concat("/claimed-deals"), {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(async (res) => {
+      if (res.status === 401) {
+        return { error: "Unauthorized" };
+      }
+      return res.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+export { claimDeal, getClimedDealsByUser, getAllClaimedDeals };
